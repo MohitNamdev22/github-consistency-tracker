@@ -51,7 +51,7 @@ export default function Profile() {
       <main className="flex-1 p-4 md:p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Profile</h1>
-          <Button className="bg-purple-600 hover:bg-purple-700">Save Changes</Button>
+          <Button className="bg-slate-50 text-gray-900">Save Changes</Button>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="bg-gray-800 border border-gray-700">
@@ -64,7 +64,7 @@ export default function Profile() {
                   <AvatarImage alt="User avatar" src="/placeholder-user.jpg" />
                   <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
-                <Button variant="outline" className="border-gray-700 text-white hover:bg-purple-600">
+                <Button variant="outline" className="border-gray-700 text-black bg-slate-50">
                   Change Avatar
                 </Button>
               </div>
