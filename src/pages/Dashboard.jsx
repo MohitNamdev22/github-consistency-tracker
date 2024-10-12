@@ -1,37 +1,47 @@
-import React from 'react'
-import { Button } from "../components/ui/button.jsx"
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards"
-import { Progress } from "../components/ui/progress"
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { Bell, Clock, Github, Plus } from "lucide-react"
-import { Bar, BarChart, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"
-
-const weeklyData = [
-  { name: "Mon", hours: 5 },
-  { name: "Tue", hours: 7 },
-  { name: "Wed", hours: 6 },
-  { name: "Thu", hours: 8 },
-  { name: "Fri", hours: 7 },
-  { name: "Sat", hours: 3 },
-  { name: "Sun", hours: 4 },
-]
-
-const monthlyData = [
-  { name: "Week 1", tasks: 20, hours: 35 },
-  { name: "Week 2", tasks: 25, hours: 40 },
-  { name: "Week 3", tasks: 18, hours: 32 },
-  { name: "Week 4", tasks: 30, hours: 45 },
-]
+import React, { useEffect, useState } from 'react';
+import { Button } from "../components/ui/button.jsx";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards";
+import { Progress } from "../components/ui/progress";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
+import { Bell, Clock, Github, Plus } from "lucide-react";
+import { Bar, BarChart, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { fetchGitHubUserData } from "../api/githubApi"; // Updated import to fetch user data
 
 const Dashboard = () => {
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
+  const [weeklyData, setWeeklyData] = useState([]); // Assuming you have data for charts
+  const [monthlyData, setMonthlyData] = useState([]); // Assuming you have data for charts
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("githubAccessToken"); // Retrieve token from local storage
+      if (!token) {
+        setError("User not authenticated.");
+        return;
+      }
+      
+      try {
+        const data = await fetchGitHubUserData(token); // Fetch GitHub user data
+        setUserData(data);
+      } catch (error) {
+        setError("Failed to fetch data from GitHub.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (error) return <div>{error}</div>; // Handle errors gracefully
+
+  if (!userData) return <div>Loading...</div>; // Show loading state
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-purple-950 via-gray-900 to-purple-950 animate-gradientX text-white">
       {/* Header Section */}
       <header className="flex items-center h-16 px-4 border-b border-gray-800 shrink-0 md:px-6">
         <nav className="flex-1 flex items-center space-x-4 sm:space-x-6 text-gray-300">
-          <div className="font-semibold text-white">
-            Github Consistency Tracker
-          </div>
+          <div className="font-semibold text-white">Github Consistency Tracker</div>
           <div className="font-medium">Dashboard</div>
           <div className="font-medium">Tasks</div>
           <div className="font-medium">Leaderboard</div>
@@ -42,8 +52,8 @@ const Dashboard = () => {
             <span className="sr-only">Notifications</span>
           </Button>
           <Avatar>
-            <AvatarImage alt="User avatar" src="/placeholder-user.jpg" />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarImage alt="User avatar" src={userData.avatar_url} />
+            <AvatarFallback>{userData.login.charAt(0)}</AvatarFallback>
           </Avatar>
         </div>
       </header>
@@ -161,7 +171,7 @@ const Dashboard = () => {
         </Card>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

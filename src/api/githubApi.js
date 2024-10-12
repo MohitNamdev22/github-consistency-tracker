@@ -1,13 +1,15 @@
 import axios from 'axios';
 
-const GITHUB_API_URL = 'https://api.github.com/users/'; // GitHub API base URL
-
-export const fetchGitHubContributions = async (username) => {
+export const fetchGitHubUserData = async (token) => {
   try {
-    const response = await axios.get(`${GITHUB_API_URL}${username}/repos`);
-    return response.data;
+    const response = await axios.get('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the token in the headers
+      },
+    });
+    return response.data; // Return the user data
   } catch (error) {
-    console.error('Error fetching GitHub contributions:', error);
-    return [];
+    console.error("Error fetching GitHub data:", error);
+    throw error; // Rethrow the error for further handling if needed
   }
 };
