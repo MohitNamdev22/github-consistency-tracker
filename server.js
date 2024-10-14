@@ -1,9 +1,8 @@
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const admin = require('firebase-admin');
-
+import express from 'express';
+import axios from 'axios';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import admin from 'firebase-admin';
 dotenv.config();
 
 const app = express();
