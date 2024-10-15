@@ -50,11 +50,11 @@ const Dashboard = () => {
         })));
 
         // Fetch monthly data
-        const monthlyContributionData = await fetchMonthlyContributions(token, data.login); // Assuming this function exists
+        const monthlyContributionData = await fetchMonthlyContributions(token, data.login);
         setMonthlyData(monthlyContributionData.map(data => ({
-          name: data.month, // Assuming you have a month field in your data
-          tasks: data.tasks, // Replace with actual field names from your API
-          hours: data.hours // Replace with actual field names from your API
+          name: data.month, 
+          tasks: data.tasks,
+          hours: data.hours 
         })));
 
         console.log(monthlyContributionData);
@@ -132,43 +132,45 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        <div className="flex flex-col md:flex-row md:space-x-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        {/* Weekly Contributions Chart */}
-        <Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-white">Weekly Contributions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={weeklyData}>
-                <XAxis dataKey="name" stroke="#cccccc" />
-                <YAxis stroke="#cccccc" />
-                <Tooltip />
-                <Bar dataKey="contributions" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+{/* Weekly Contributions Chart */}
+<Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
+  <CardHeader>
+    <CardTitle className="text-white">Weekly Contributions</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={weeklyData}>
+        <XAxis dataKey="name" stroke="#cccccc" />
+        <YAxis stroke="#cccccc" />
+        <Tooltip />
+        <Bar dataKey="contributions" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
+  </CardContent>
+</Card>
 
-        {/* Monthly Progress Chart */}
-        <Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-white">Monthly Progress</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={monthlyData}>
-                <XAxis dataKey="name" stroke="#cccccc" />
-                <YAxis stroke="#cccccc" />
-                <Tooltip />
-                <Line type="monotone" dataKey="tasks" stroke="#82ca9d" />
-                <Line type="monotone" dataKey="hours" stroke="#8884d8" />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        </div>
+{/* Monthly Progress Chart */}
+<Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
+  <CardHeader>
+    <CardTitle className="text-white">Monthly Progress</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart data={monthlyData}>
+        <XAxis dataKey="name" stroke="#cccccc" />
+        <YAxis stroke="#cccccc" />
+        <Tooltip />
+        <Line type="monotone" dataKey="tasks" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="hours" stroke="#8884d8" />
+      </LineChart>
+    </ResponsiveContainer>
+  </CardContent>
+</Card>
+
+</div>
+
       </main>
     </div>
   );
