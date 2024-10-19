@@ -206,7 +206,6 @@ export default function Tasks() {
         </div>
       </main>
 
-      {/* Modal for adding new task */}
       <Modal
         show={isModalOpen}
         onClose={() => setModalOpen(false)}
