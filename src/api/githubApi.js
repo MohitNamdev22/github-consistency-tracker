@@ -1,7 +1,12 @@
 import axios from 'axios';
 
 // Function to fetch the GitHub user data
-export const fetchGitHubUserData = async (token) => {
+export const fetchGitHubUserData = async () => {
+  const token = localStorage.getItem("githubAccessToken");
+      if (!token) {
+        setError("User not authenticated.");
+        return;
+      }
   try {
     const response = await axios.get('https://api.github.com/user', {
       headers: {
@@ -64,7 +69,6 @@ export const fetchGitHubContributions = async (token, username) => {
   }
 };
 
-// Function to fetch pull requests for the last 7 days
 export const fetchPullRequests = async (token, username) => {
   try {
     const response = await axios.get(

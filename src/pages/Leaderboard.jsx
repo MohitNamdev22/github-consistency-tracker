@@ -1,20 +1,36 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards"
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { Bell, Trophy } from "lucide-react"
-
-const leaderboardData = [
-  { id: 1, name: "Alice Johnson", score: 2500, avatar: "/placeholder-user.jpg" },
-  { id: 2, name: "Bob Smith", score: 2300, avatar: "/placeholder-user.jpg" },
-  { id: 3, name: "Charlie Brown", score: 2100, avatar: "/placeholder-user.jpg" },
-  { id: 4, name: "Diana Prince", score: 2000, avatar: "/placeholder-user.jpg" },
-  { id: 5, name: "Ethan Hunt", score: 1900, avatar: "/placeholder-user.jpg" },
-]
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
+import { Bell, Trophy } from "lucide-react";
+import { db } from '../firebaseConfig'; // import Firestore instance
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 export default function Leaderboard() {
+  const [leaderboardData, setLeaderboardData] = useState([]);
+
+  // Fetch leaderboard data from Firebase
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const q = query(collection(db, 'users'), orderBy('totalCommits', 'desc'));
+        const querySnapshot = await getDocs(q);
+
+        const data = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setLeaderboardData(data);
+      } catch (error) {
+        console.error('Error fetching leaderboard data:', error);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       <header className="flex items-center h-16 px-4 border-b border-gray-700 shrink-0 md:px-6">
@@ -75,12 +91,12 @@ export default function Leaderboard() {
                     )}
                   </div>
                   <Avatar className="h-10 w-10 mr-4">
-                    <AvatarImage alt={user.name} src={user.avatar} />
+                    <AvatarImage alt={user.name} src={user.avatar || "/placeholder-user.jpg"} />
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <p className="text-sm font-medium leading-none">{user.name}</p>
-                    <p className="text-sm text-gray-400">Score: {user.score}</p>
+                    <p className="text-sm font-medium leading-none">{user.githubUsername || user.name}</p>
+                    <p className="text-sm text-gray-400">Score: {user.totalCommits}</p>
                   </div>
                 </div>
               ))}
@@ -89,5 +105,5 @@ export default function Leaderboard() {
         </Card>
       </main>
     </div>
-  )
+  );
 }

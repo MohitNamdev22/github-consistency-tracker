@@ -7,11 +7,12 @@ import { Bell, Github } from "lucide-react";
 import { Bar, BarChart, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"; // Import Line and LineChart
 import { fetchGitHubUserData, fetchGitHubContributions, fetchPullRequests, fetchMonthlyContributions } from "../api/githubApi"; // Make sure fetchMonthlyData is implemented
 
+
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [weeklyData, setWeeklyData] = useState([]);
-  const [monthlyData, setMonthlyData] = useState([]); // New state for monthly data
+  const [monthlyData, setMonthlyData] = useState([]);
   const [contributions, setContributions] = useState(0);
   const [pullRequests, setPullRequests] = useState(0);
   const [commits, setCommits] = useState(0);
@@ -49,7 +50,6 @@ const Dashboard = () => {
           contributions: week.contributionCount
         })));
 
-        // Fetch monthly data
         const monthlyContributionData = await fetchMonthlyContributions(token, data.login);
         setMonthlyData(monthlyContributionData.map(data => ({
           name: data.month, 
@@ -97,7 +97,6 @@ const Dashboard = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* Streak, Pull Requests, Commits */}
           <Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium text-gray-300">Consistency Streak</CardTitle>
@@ -134,42 +133,42 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-{/* Weekly Contributions Chart */}
-<Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
-  <CardHeader>
-    <CardTitle className="text-white">Weekly Contributions</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={weeklyData}>
-        <XAxis dataKey="name" stroke="#cccccc" />
-        <YAxis stroke="#cccccc" />
-        <Tooltip />
-        <Bar dataKey="contributions" fill="#8884d8" />
-      </BarChart>
-    </ResponsiveContainer>
-  </CardContent>
-</Card>
+          {/* Weekly Contributions Chart */}
+          <Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-white">Weekly Contributions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={weeklyData}>
+                  <XAxis dataKey="name" stroke="#cccccc" />
+                  <YAxis stroke="#cccccc" />
+                  <Tooltip />
+                  <Bar dataKey="contributions" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
-{/* Monthly Progress Chart */}
-<Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
-  <CardHeader>
-    <CardTitle className="text-white">Monthly Progress</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={monthlyData}>
-        <XAxis dataKey="name" stroke="#cccccc" />
-        <YAxis stroke="#cccccc" />
-        <Tooltip />
-        <Line type="monotone" dataKey="tasks" stroke="#82ca9d" />
-        <Line type="monotone" dataKey="hours" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
-  </CardContent>
-</Card>
+          {/* Monthly Progress Chart */}
+          <Card className="bg-gray-800/50 backdrop-blur-lg shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-white">Monthly Progress</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={monthlyData}>
+                  <XAxis dataKey="name" stroke="#cccccc" />
+                  <YAxis stroke="#cccccc" />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="tasks" stroke="#82ca9d" />
+                  <Line type="monotone" dataKey="hours" stroke="#8884d8" />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
-</div>
+        </div>
 
       </main>
     </div>

@@ -1,29 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards"
-import { Input } from "../components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards";
+import { Input } from "../components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { fetchGitHubUserData } from '../api/githubApi'; // Import the GitHub API call
 
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [bio, setBio] = useState('');
   const [location, setLocation] = useState('');
+  const [loading, setLoading] = useState(true); // For loading state
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = await fetchGitHubUserData(); // Fetch GitHub data
+        const userDetails = await fetchGitHubUserData(token); // Fetch GitHub data
         setUser(userDetails);
         setBio(userDetails.bio || ''); // Set fetched bio
         setLocation(userDetails.location || ''); // Set fetched location
       } catch (error) {
         console.error("Failed to fetch user details:", error);
+      } finally {
+        setLoading(false); // End loading state
       }
     };
     fetchData();
   }, []);
+
+  const handleSaveChanges = async () => {
+    // You would add logic here to update the user's profile information in the backend.
+    // For now, this could simply log the updated values.
+    console.log('Saving changes:', { bio, location });
+    // Implement the save logic, such as calling a Firebase or GitHub API to update user info.
+  };
+
+  const handleAvatarChange = (event) => {
+    // Handle avatar upload
+    const file = event.target.files[0];
+    console.log('Avatar file selected:', file);
+    // Implement logic to upload the file and update the avatar in the backend
+  };
+
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen text-white">Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
@@ -37,9 +58,6 @@ export default function Profile() {
           <Link className="font-medium hover:text-purple-400" to="/leaderboard">Leaderboard</Link>
         </nav>
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="icon">
-            <span className="sr-only">Notifications</span>
-          </Button>
           <Avatar>
             <AvatarImage alt="User avatar" src={user?.avatar_url || "/placeholder-user.jpg"} />
             <AvatarFallback>{user?.name?.[0] || 'U'}</AvatarFallback>
@@ -50,7 +68,7 @@ export default function Profile() {
       <main className="flex-1 p-4 md:p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Profile</h1>
-          <Button className="bg-slate-50 text-gray-900">Save Changes</Button>
+          <Button className="bg-slate-50 text-gray-900" onClick={handleSaveChanges}>Save Changes</Button>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -64,9 +82,16 @@ export default function Profile() {
                   <AvatarImage alt="User avatar" src={user?.avatar_url || "/placeholder-user.jpg"} />
                   <AvatarFallback>{user?.name?.[0] || 'U'}</AvatarFallback>
                 </Avatar>
-                <Button variant="outline" className="border-gray-700 text-black bg-slate-50">
+                <label htmlFor="avatar-upload" className="border-gray-700 text-black bg-slate-50 px-4 py-2 rounded-md cursor-pointer">
                   Change Avatar
-                </Button>
+                  <input
+                    id="avatar-upload"
+                    type="file"
+                    className="hidden"
+                    onChange={handleAvatarChange}
+                    accept="image/*"
+                  />
+                </label>
               </div>
 
               <div className="space-y-2">
