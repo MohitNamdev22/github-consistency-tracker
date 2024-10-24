@@ -35,10 +35,10 @@ const Navbar = () => {
   return (
     <header className="flex items-center h-16 px-4 border-b border-gray-800 shrink-0 md:px-6">
       <nav className="flex-1 flex items-center space-x-4 sm:space-x-6 text-gray-300">
-        <div className="font-semibold text-white" onClick={() => navigate("/dashboard")}>Github Consistency Tracker</div>
-        <div className="font-medium cursor-pointer" onClick={() => navigate("/dashboard")}>Dashboard</div>
-        <div className="font-medium cursor-pointer" onClick={() => navigate("/tasks")}>Tasks</div>
-        <div className="font-medium cursor-pointer" onClick={() => navigate("/leaderboard")}>Leaderboard</div>
+        <div className="font-semibold text-white">Github Consistency Tracker</div>
+        <div className="font-medium cursor-pointer hover:text-purple-400" onClick={() => navigate("/dashboard")}>Dashboard</div>
+        <div className="font-medium cursor-pointer hover:text-purple-400" onClick={() => navigate("/tasks")}>Tasks</div>
+        <div className="font-medium cursor-pointer hover:text-purple-400" onClick={() => navigate("/leaderboard")}>Leaderboard</div>
       </nav>
       <div className="flex items-center space-x-4">
         <Button variant="ghost" size="icon">

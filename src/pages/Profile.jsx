@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards
 import { Input } from "../components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { fetchGitHubUserData } from '../api/githubApi'; // Import the GitHub API call
+import Navbar from '../components/Navbar';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -53,7 +54,7 @@ export default function Profile() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-      <header className="flex items-center h-16 px-4 border-b border-gray-700 shrink-0 md:px-6">
+      {/* <header className="flex items-center h-16 px-4 border-b border-gray-700 shrink-0 md:px-6">
         <nav className="flex-1 flex items-center space-x-4 sm:space-x-6">
           <Link className="flex items-center space-x-2 font-semibold" to="/">
             <span>GitHub Consistency Tracker</span>
@@ -68,7 +69,8 @@ export default function Profile() {
             <AvatarFallback>{user?.name?.[0] || 'U'}</AvatarFallback>
           </Avatar>
         </div>
-      </header>
+      </header> */}
+      <Navbar/>
 
       <main className="flex-1 p-4 md:p-6 space-y-6">
         <div className="flex items-center justify-between">
