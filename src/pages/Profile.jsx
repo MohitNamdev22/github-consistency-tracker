@@ -13,6 +13,11 @@ export default function Profile() {
   const [loading, setLoading] = useState(true); // For loading state
 
   useEffect(() => {
+    const token = localStorage.getItem("githubAccessToken");
+      if (!token) {
+        setError("User not authenticated.");
+        return;
+      }
     const fetchData = async () => {
       try {
         const userDetails = await fetchGitHubUserData(token); // Fetch GitHub data
