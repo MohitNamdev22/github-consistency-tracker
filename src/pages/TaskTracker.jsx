@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/cards
 import { Input } from "../components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
 import { Bell, Plus, Check, X } from "lucide-react"
+import Navbar from "../components/Navbar"
 
 // Modal Component
 function Modal({ show, onClose, onSave }) {
@@ -113,7 +114,7 @@ export default function Tasks() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header Section */}
-      <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
+      {/* <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
         <nav className="flex-1 flex items-center space-x-4 sm:space-x-6">
           <Link className="flex items-center space-x-2 font-semibold" to="#">
             <svg
@@ -144,7 +145,8 @@ export default function Tasks() {
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </div>
-      </header>
+      </header> */}
+      <Navbar/>
 
       {/* Main Content */}
       <main className="flex-1 p-4 md:p-6 space-y-6">

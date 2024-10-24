@@ -1,9 +1,11 @@
-// src/components/ui/avatar.jsx
 import React from 'react';
 
-export const Avatar = ({ children }) => {
+export const Avatar = ({ children, className, onClick }) => {
   return (
-    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-700">
+    <div 
+      className={`w-10 h-10 rounded-full overflow-hidden bg-gray-700 ${className}`} 
+      onClick={onClick}
+    >
       {children}
     </div>
   );

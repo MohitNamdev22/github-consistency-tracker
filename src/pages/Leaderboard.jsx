@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Bell, Trophy } from "lucide-react";
 import { db } from '../firebaseConfig'; // import Firestore instance
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import Navbar from '../components/Navbar';
 
 export default function Leaderboard() {
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -33,7 +34,7 @@ export default function Leaderboard() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-      <header className="flex items-center h-16 px-4 border-b border-gray-700 shrink-0 md:px-6">
+      {/* <header className="flex items-center h-16 px-4 border-b border-gray-700 shrink-0 md:px-6">
         <nav className="flex-1 flex items-center space-x-4 sm:space-x-6">
           <Link className="flex items-center space-x-2 font-semibold" href="#">
             <svg
@@ -70,7 +71,8 @@ export default function Leaderboard() {
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </div>
-      </header>
+      </header> */}
+      <Navbar/>
       <main className="flex-1 p-4 md:p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Leaderboard</h1>
